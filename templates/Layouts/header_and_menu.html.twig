@@ -1,0 +1,33 @@
+{# template racine (niveau 1) pour TwigController #}
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-9">
+        <title>{% block title %}You must choose a title, i can't do it for you{% endblock %}</title>
+        <link href="{{ asset('css/stylesheet.css') }}" type="text/css" rel="stylesheet">
+        <!-- le fichier .css est dans public/css -->
+        <a class="button" role="button" href="{{ path('overview') }}" class="btn btn-primary btn-sm"> <img src="{{asset('pic/duck.png') }}" style="width:40px;height:40px;"> &nbsp;Duck's armor seller </a>
+
+    </head>
+
+    <body style="">
+
+        <main>
+            <section id="corps">
+                <h1>{% block corps_title %}{% endblock %}</h1>
+                {% block corps %}{% endblock %}
+            </section>
+
+            <aside id="barre_laterale">
+                <h1>{% block barre_laterale_title %}{% endblock %}</h1>
+                {% block barre_laterale %}{% endblock %}
+                <nav>{% block deconnexion %}{% endblock %}</nav>
+            </aside>
+        </main>
+
+        <div id="footer">
+            {% include 'Layouts/footer.html.twig' %}
+        </div>
+    </body>
+</html>
