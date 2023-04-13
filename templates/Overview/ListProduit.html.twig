@@ -1,6 +1,18 @@
 {% extends '/Layouts/header_and_menu.html.twig' %}
 
 {% block title %}{{ parent() }}{% endblock %}
+{%  block css %}
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid black; /* Définir la bordure des cellules */
+            padding: 8px; /* Ajouter du padding pour espacer les cellules */
+            text-align: left; /* Définir l'alignement du texte dans les cellules */
+        }
+    </style>
+{% endblock %}
 
 {% block main_title %} Liste des produits {% endblock %}
 {% block corps %}
@@ -8,7 +20,7 @@
     <h2>Liste des produits</h2>
 
     <table>
-        <tr><th>Produit</th><th><a href="{{ path('form_produit_add') }}"><button class="mon-button" > + </button></a></th></tr>
+        <tr><th>Produit<a href="{{ path('form_produit_add') }}"><button class="mon-button" > + </button></a></th></tr>
         <td> Nom </td>
         <td> Prix </td>
         <td> Quantité </td>
@@ -17,6 +29,7 @@
                 <td>{{ produit.libelle }}</td>
                 <td>{{ produit.prix }}</td>
                 <td>{{ produit.quantite}}</td>
+                <td><a href="{{ path('form_produit_edit', {'id' : produit.id}) }}"><button class="mon-button" > edit </button></a></td>
             </tr>
         {% endfor %}
     </table>

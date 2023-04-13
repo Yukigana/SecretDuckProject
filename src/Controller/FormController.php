@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Users;
+use App\Form\UsersType;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +31,7 @@ class FormController extends AbstractController
         if (is_null($produit))
             throw new NotFoundHttpException('produit ' . $id . ' inexistant');
 
-        $form = $this->createForm(ProduiType::class, $produit);
+        $form = $this->createForm(ProduitType::class, $produit);
         $form->add('send', SubmitType::class, ['label' => 'edit produit']);
         $form->handleRequest($request);
 
@@ -75,5 +77,29 @@ class FormController extends AbstractController
         return $this->render('Form/produitAdd.html.twig', $args);
     }
 
+    #[Route('/user/add', name: '_user_add')]
+    public function userAddAction(EntityManagerInterface $em, Request $request): Response
+    {
+        $user = new Users();
 
+        $form = $this->createForm(UsersType::class, $user);
+        $form->add('send', SubmitType::class, ['label' => 'add user']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('info', 'ajout user réussi');
+            return $this->redirectToRoute('overview_list');
+        }
+
+        if ($form->isSubmitted())
+            $this->addFlash('info', 'formulaire ajout user incorrect');
+
+        $args = array(
+            'myform' => $form->createView(),
+        );
+        return $this->render('Form/userAdd.html.twig', $args);
+    }
 }
