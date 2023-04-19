@@ -30,6 +30,7 @@
                 <td>{{ produit.prix }}</td>
                 <td>{{ produit.quantite}}</td>
                 <td><a href="{{ path('form_produit_edit', {'id' : produit.id}) }}"><button class="mon-button" > edit </button></a></td>
+                <td><a href="{{ path('form_produit_delete', {'id' : produit.id}) }}"><button class="mon-button" > delete </button></a></td>
             </tr>
         {% endfor %}
     </table>

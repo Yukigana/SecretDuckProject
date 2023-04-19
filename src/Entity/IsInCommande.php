@@ -6,6 +6,8 @@ use App\Repository\IsInCommandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Table(name: 'ts_isInCommande')]
 #[ORM\Entity(repositoryClass: IsInCommandeRepository::class)]
@@ -16,12 +18,23 @@ class IsInCommande
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(targetEntity: Produit::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'id_produit', nullable: false)]
     private ?Produit $produit = null;
 
-    #[ORM\OneToMany(mappedBy: 'panier', targetEntity: Commandes::class)]
-    private Collection $commande;
+    #[ORM\ManyToOne(targetEntity: Commande::class, inversedBy: 'panier')]
+    #[ORM\JoinColumn(name: 'id_commande', nullable: false)]
+    #[Assert\NotNull]
+    #[Assert\Valid]
+    private ?Commande $commande = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Range(
+        notInRangeMessage: 'la quantité doit être supérieur à {{ min }}',
+        min: 0,
+    )]
+    private ?int $quantite = null;
 
 
 
@@ -42,15 +55,12 @@ class IsInCommande
         return $this;
     }
 
-    /**
-     * @return Collection<int, Commandes>
-     */
-    public function getCommande(): Collection
+    public function getCommande(): ?Commande
     {
         return $this->commande;
     }
 
-    public function addCommande(Commandes $commande): self
+    public function addCommande(Commande $commande): self
     {
         if (!$this->commande->contains($commande)) {
             $this->commande->add($commande);
@@ -60,7 +70,7 @@ class IsInCommande
         return $this;
     }
 
-    public function removeCommande(Commandes $commande): self
+    public function removeCommande(Commande $commande): self
     {
         if ($this->commande->removeElement($commande)) {
             // set the owning side to null (unless already changed)
@@ -68,6 +78,18 @@ class IsInCommande
                 $commande->setPanier(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): self
+    {
+        $this->quantite = $quantite;
 
         return $this;
     }

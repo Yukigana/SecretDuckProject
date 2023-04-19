@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Users;
-use App\Form\UsersType;
+use App\Entity\User;
+use App\Form\UserType;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +39,7 @@ class FormController extends AbstractController
         {
             $em->flush();
             $this->addFlash('info', 'édition produit réussie');
-            return $this->redirectToRoute('overview_list');
+            return $this->redirectToRoute('overview_magasin_gestion');
         }
 
         if ($form->isSubmitted())
@@ -50,6 +50,7 @@ class FormController extends AbstractController
         );
         return $this->render('Form/produitEdit.html.twig', $args);
     }
+
 
     #[Route('/produit/add', name: '_produit_add')]
     public function produitAddAction(EntityManagerInterface $em, Request $request): Response
@@ -65,7 +66,7 @@ class FormController extends AbstractController
             $em->persist($produit);
             $em->flush();
             $this->addFlash('info', 'ajout produit réussi');
-            return $this->redirectToRoute('overview_list');
+            return $this->redirectToRoute('overview_magasin_gestion');
         }
 
         if ($form->isSubmitted())
@@ -77,12 +78,34 @@ class FormController extends AbstractController
         return $this->render('Form/produitAdd.html.twig', $args);
     }
 
-    #[Route('/user/add', name: '_user_add')]
+
+    #[Route(
+        'produit/delete/{id}',
+        name: '_produit_delete',
+        requirements: ['id' => '[1-9]\d*'],
+    )]
+    public function produitDeleteAction(int $id, EntityManagerInterface $em): Response
+    {
+        $produitRepository = $em->getRepository(Produit::class);
+        $produit = $produitRepository->find($id);
+
+        if (is_null($produit))
+            throw new NotFoundHttpException('erreur suppression produit ' . $id);
+
+        $em->remove($produit);
+        $em->flush();
+        $this->addFlash('info', 'suppression produit ' . $id . ' réussie');
+
+        return $this->redirectToRoute('overview_magasin_gestion');
+    }
+
+
+    #[Route('/nouveaucompte', name: '_nouveaucompte')]
     public function userAddAction(EntityManagerInterface $em, Request $request): Response
     {
-        $user = new Users();
+        $user = new User();
 
-        $form = $this->createForm(UsersType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
         $form->add('send', SubmitType::class, ['label' => 'add user']);
         $form->handleRequest($request);
 
@@ -91,7 +114,7 @@ class FormController extends AbstractController
             $em->persist($user);
             $em->flush();
             $this->addFlash('info', 'ajout user réussi');
-            return $this->redirectToRoute('overview_list');
+            return $this->redirectToRoute('overview');
         }
 
         if ($form->isSubmitted())

@@ -7,7 +7,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'ts_produits')]
+#[ORM\Table(name: 'ts_produit')]
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
 {

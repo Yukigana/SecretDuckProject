@@ -17,8 +17,8 @@ class OverviewController extends AbstractController
         return $this->render('/Overview/Accueil.html.twig');
     }
 
-    #[Route('list', name: '_list')]
-    public function listAction(EntityManagerInterface $em): Response
+    #[Route('magasin/gestion', name: '_magasin_gestion')]
+    public function gestionProduitsAction(EntityManagerInterface $em): Response
     {
         $produitRepository = $em->getRepository(Produit::class);
         $produits = $produitRepository->findAll(); // récupère toutes les lignes de la BD (sinon find($id) => récupère la ligne correspondant à l'id)

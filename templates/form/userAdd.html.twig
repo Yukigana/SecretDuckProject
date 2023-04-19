@@ -11,13 +11,11 @@
 
     {{ form_errors(myform) }}
 
-    {{ form_row(myform.libelle) }}
-
     {{ form_rest(myform) }}
 
     {{ form_end(myform) }}
 
-    <h2><a href="{{ path('overview_list') }}"><button class="mon-button" > Retour accueil </button></a></h2>
+    <h2><a href="{{ path('overview') }}"><button class="mon-button" > Retour accueil </button></a></h2>
 
     <h2>dump</h2>
     {{ dump(myform) }}
