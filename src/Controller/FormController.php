@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserEditType;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -128,5 +129,59 @@ class FormController extends AbstractController
             'myform' => $form->createView(),
         );
         return $this->render('Form/userAdd.html.twig', $args);
+    }
+
+
+    #[Route(
+        '/user/edit/{id}',
+        name: '_user_edit',
+        requirements: ['id' => '[1-9]\d*'],
+    )]
+    public function userEditAction(int $id, EntityManagerInterface $em, Request $request): Response
+    {
+        $userRepository = $em->getRepository(User::class);
+        $user = $userRepository->find($id);
+
+        if (is_null($user))
+            throw new NotFoundHttpException('user ' . $id . ' inexistant');
+
+        $form = $this->createForm(UserEditType::class, $user);
+        $form->add('send', SubmitType::class, ['label' => 'edit produit']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em->flush();
+            $this->addFlash('info', 'édition produit réussie');
+            return $this->redirectToRoute('overview');
+        }
+
+        if ($form->isSubmitted())
+            $this->addFlash('info', 'formulaire user incorrect');
+
+        $args = array(
+            'myform' => $form->createView(),
+        );
+        return $this->render('Form/userEdit.html.twig', $args);
+    }
+
+    #[Route(
+        'user/delete/{id}',
+        name: '_user_delete',
+        requirements: ['id' => '[1-9]\d*'],
+    )]
+    public function userDeleteAction(int $id, EntityManagerInterface $em): Response
+    {
+        $userRepository = $em->getRepository(User::class);
+        $user = $userRepository->find($id);
+
+        if (is_null($user))
+            throw new NotFoundHttpException('erreur suppression user ' . $id);
+
+        $em->remove($user);
+        $em->flush();
+        $this->addFlash('info', 'suppression user ' . $id . ' réussie');
+
+        return $this->redirectToRoute('overview_user_gestion');
     }
 }

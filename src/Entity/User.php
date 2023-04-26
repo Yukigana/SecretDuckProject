@@ -84,10 +84,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // - - - - - --------------------------------------------------- - - - - - //
     //                          GETTERS / SETTERS                              //
 
-    /*public function getId(): ?int
+    public function getId(): ?int
     {
         return $this->id;
-    }*/
+    }
 
     public function getLogin(): ?string
     {

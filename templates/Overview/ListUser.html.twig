@@ -1,0 +1,44 @@
+{% extends '/Layouts/header_and_menu.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+{%  block css %}
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid black; /* Définir la bordure des cellules */
+            padding: 8px; /* Ajouter du padding pour espacer les cellules */
+            text-align: left; /* Définir l'alignement du texte dans les cellules */
+        }
+    </style>
+{% endblock %}
+
+{% block main_title %} Liste des utilisateurs {% endblock %}
+{% block corps %}
+
+    <h2>Liste des utilisateurs</h2>
+
+    <table>
+        <tr><th>User</th></tr>
+        <td> Nom </td>
+        <td> Prenom </td>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                {% for role in user.roles %}
+                    <td>{{ role }}</td>
+                {% endfor %}
+                <td><a href="{{ path('form_user_edit', {'id' : user.id}) }}"><button class="mon-button" > edit </button></a></td>
+                <td><a href="{{ path('form_user_delete', {'id' : user.id}) }}"><button class="mon-button" > delete </button></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block barre_laterale %}
+
+    <p>truc<br />bidule</p>
+
+{% endblock %}

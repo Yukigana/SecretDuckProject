@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,5 +27,16 @@ class OverviewController extends AbstractController
             'produits' => $produits,
         );
         return $this->render('Overview/ListProduit.html.twig', $args);
+    }
+
+    #[Route('user/gestion', name: '_user_gestion')]
+    public function gestionUsersAction(EntityManagerInterface $em): Response
+    {
+        $userRepository = $em->getRepository(User::class);
+        $users = $userRepository->findAll(); // récupère toutes les lignes de la BD (sinon find($id) => récupère la ligne correspondant à l'id)
+        $args = array(
+            'users' => $users,
+        );
+        return $this->render('Overview/ListUser.html.twig', $args);
     }
 }
