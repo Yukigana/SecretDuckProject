@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/form', name: 'form')]
 class FormController extends AbstractController
@@ -101,7 +102,7 @@ class FormController extends AbstractController
 
 
     #[Route('/nouveaucompte', name: '_nouveaucompte')]
-    public function userAddAction(EntityManagerInterface $em, Request $request): Response
+    public function userAddAction(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
 
@@ -111,6 +112,9 @@ class FormController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $user->setPassword ($passwordHasher->hashPassword($user, $user->getPassword()));
+            $user->setRoles(['ROLE_USER']);
+
             $em->persist($user);
             $em->flush();
             $this->addFlash('info', 'ajout user réussi');
