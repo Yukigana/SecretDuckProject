@@ -22,11 +22,11 @@ class IsInCommande
     #[ORM\JoinColumn(name: 'id_produit', nullable: false)]
     private ?Produit $produit = null;
 
-    #[ORM\ManyToOne(targetEntity: Commande::class, inversedBy: 'panier')]
-    #[ORM\JoinColumn(name: 'id_commande', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'panier')]
+    #[ORM\JoinColumn(name: 'id_user', nullable: false)]
     #[Assert\NotNull]
     #[Assert\Valid]
-    private ?Commande $commande = null;
+    private ?User $user;
 
     #[ORM\Column]
     #[Assert\NotBlank]

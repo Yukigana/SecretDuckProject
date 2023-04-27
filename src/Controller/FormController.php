@@ -21,6 +21,36 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class FormController extends AbstractController
 {
     #[Route(
+        '/produit/list',
+        name: '_produit_list',
+    )]
+    public function produitListAction(EntityManagerInterface $em, Request $request): Response
+    {
+        // Récupération de tous les produits du magasin
+        $produitsRepository = $em->getRepository(Produit::class);
+        $produits = $produitsRepository->findAll();
+
+        $args = array(
+            'produits' => array(),
+        );
+
+        // On passe par chaque produit pour leur créer un formulaire perso
+        foreach ($produits as $produit){
+            $data = array();
+            // Si la quantité disponible alors on ne met pas de formulaire
+            /*if($produit.getQuantite() > 0){
+                array_push($data, $produit);
+            }
+            else */
+            array_push($data, $produit);
+
+            array_push($args['produits'], $data);
+        }
+
+        return $this->render('Form/produitShop.html.twig', $args);
+    }
+
+    #[Route(
         '/produit/edit/{id}',
         name: '_produit_edit',
         requirements: ['id' => '[1-9]\d*'],
@@ -146,13 +176,13 @@ class FormController extends AbstractController
             throw new NotFoundHttpException('user ' . $id . ' inexistant');
 
         $form = $this->createForm(UserEditType::class, $user);
-        $form->add('send', SubmitType::class, ['label' => 'edit produit']);
+        $form->add('send', SubmitType::class, ['label' => 'edit user']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
             $em->flush();
-            $this->addFlash('info', 'édition produit réussie');
+            $this->addFlash('info', 'édition user réussie');
             return $this->redirectToRoute('overview');
         }
 

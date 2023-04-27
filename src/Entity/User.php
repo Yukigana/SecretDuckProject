@@ -39,11 +39,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
-    #[Assert\Length(
-        max: 50,
-        min: 5,
-        maxMessage: 'La taille du mdp doit être comprise entre {{ min }} et {{ max }}',
-    )]
     private ?string $password = null;
 
         // FIN DES CHAMPS PRINCIPAUX
@@ -67,15 +62,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateNaissance = null;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Commande::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: IsInCommande::class)]
     #[Assert\Valid]
-    private Collection $commandes;
+    private Collection $panier;
 
     /**
      * Constructeur User
      */
     public function __construct(){
-        $this->commandes = new ArrayCollection();
+        $this->panier = new ArrayCollection();
     }
 
     //                                                                         //
