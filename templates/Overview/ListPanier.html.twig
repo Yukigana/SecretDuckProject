@@ -14,25 +14,24 @@
     </style>
 {% endblock %}
 
-{% block main_title %} Liste des produits {% endblock %}
+{% block main_title %} Panier {% endblock %}
 {% block corps %}
 
-    <h2>Liste des produits</h2>
+    <h2>Liste des produits du panier</h2>
 
     <table>
-        <tr><th>Produit<a href="{{ path('form_produit_add') }}"><button class="mon-button" > + </button></a></th></tr>
+        <tr><th>Panier</th></tr>
         <td> Nom </td>
-        <td> Prix </td>
         <td> Quantité </td>
-        {% for produit in produits %}
+        {% for p in produits %}
             <tr>
-                <td>{{ produit[0].libelle }}</td>
-                <td>{{ produit[0].prix }}</td>
-                <td>{{ produit[0].quantite}}</td>
-                <td>{{ form_start(produit[1]) }}</td>
+                <td>{{ p.produit.libelle }}</td>
+                <td>{{ p.quantite}}</td>
+                <td><a href="{{ path('overview_panier_suppArticle', {'id_produit' : p.produit.id}) }}"><button class="mon-button" > delete </button></a></td>
             </tr>
         {% endfor %}
     </table>
+    <p> Prix total : {{ prixTot }} <a href="{{ path('overview_panier_delete', {'id_user' : app.user.id}) }}"><button class="mon-button" > Vider </button></a><a href="{{ path('overview_panier_commande') }}"><button class="mon-button" > Commander </button></a></p>
 {% endblock %}
 
 {% block barre_laterale %}

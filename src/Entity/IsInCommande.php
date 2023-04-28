@@ -42,6 +42,13 @@ class IsInCommande
     {
         return $this->id;
     }
+    
+    public function setId(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 
     public function getProduit(): ?Produit
     {
@@ -55,9 +62,17 @@ class IsInCommande
         return $this;
     }
 
-    public function getCommande(): ?Commande
+    public function getUser(): ?User
     {
-        return $this->commande;
+        return $this->user;
+    }
+
+    
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function addCommande(Commande $commande): self

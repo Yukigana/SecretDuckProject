@@ -8,14 +8,36 @@
         Welcome to our website <strong>Duck's armor seller</strong> ! In a world where everyone has a duck friend, we need to protect them.
         We value quality and offer you a large collection of duck armors which are named with celibrity names of the fashion world. </br>
         With our armors your duck will be in security with style.</br>
-        If you duck like to walk around roads we advice you the "Canaradard" armor based on Rémi Gaillard's duck.
+        If you duck like to walk around roads we advice you the "Canaradard" armor based on RÃ©mi Gaillard's duck.
+    </p>
+    
+    </br>
+    <p> You are
+        {% if is_granted('ROLE_USER') %}
+             logged in user mod
+        {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+             logged in admin mod
+        {% endif %}
+
+        {% if is_granted('ROLE_SUPERADMIN') %}
+             logged in superadmin mod
+        {% endif %}
+
+        {% if is_granted('ROLE_NONE') %}
+             not logged
+        {% endif %}
+        . Have a good day.
+    </p>
+    
+    <p> 
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Lien vers l'extérieur</a>
+        {% endif %}
     </p>
 {% endblock %}
 
 {% block barre_laterale %}
 
-    <p><a class="button" role="button" href="{{ path('overview_magasin_gestion') }}" class="btn btn-primary btn-sm">  &nbsp;Duck's armor shop </a></p>
-    <p><a class="button" role="button" href="{{ path('form_nouveaucompte') }}" class="btn btn-primary btn-sm">  &nbsp;New Duck's account </a></p>
-    <p><a class="button" role="button" href="{{ path('app_login') }}" class="btn btn-primary btn-sm">  &nbsp;Connexion </a></p>
-    <p><a class="button" role="button" href="{{ path('overview_user_gestion') }}" class="btn btn-primary btn-sm">  &nbsp;Gestion accounts </a></p>
 {% endblock %}

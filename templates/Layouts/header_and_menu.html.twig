@@ -19,12 +19,41 @@
             <section id="corps">
                 <h1>{% block corps_title %}{% endblock %}</h1>
                 {% block corps %}{% endblock %}
+
+
             </section>
 
             <aside id="barre_laterale">
+                <p><a class="button" role="button" href="{{ path('app_login') }}" class="btn btn-primary btn-sm">  &nbsp;Connexion </a></p>
+                <p><a class="button" role="button" href="{{ path('form_nouveaucompte') }}" class="btn btn-primary btn-sm">  &nbsp;New Duck's account </a></p>
+
+                {% if is_granted('ROLE_NONE') %}
+                <p><a class="button" role="button" href="{{ path('app_login') }}" class="btn btn-primary btn-sm">  &nbsp;Connexion </a></p>
+                <p><a class="button" role="button" href="{{ path('form_nouveaucompte') }}" class="btn btn-primary btn-sm">  &nbsp;New Duck's account </a></p>
+                {% endif %}
+
+                {% if is_granted('ROLE_USER') %}
+                <p><a class="button" role="button" href="{{ path('overview_user_panier')}}" class="btn btn-primary btn-sm">  &nbsp;Gestion panier </a></p>
+                <p><a class="button" role="button" href="{{ path('overview_magasin_gestion') }}" class="btn btn-primary btn-sm">  &nbsp;Duck's armor shop</a></p>
+                <p><a class="button" role="button" href="{{ path('form_user_edit', {'id' : app.user.id}) }}" class="btn btn-primary btn-sm">  &nbsp;Gestion profil </a></p>
+                <p><a class="button" role="button" href="{{ path('app_logout') }}" class="btn btn-primary btn-sm">  &nbsp;Déconnexion </a></p>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+
+                <p><a class="button" role="button" href="{{ path('overview_user_gestion') }}" class="btn btn-primary btn-sm">  &nbsp;Gestion users</a></p>
+                {% endif %}
+
+                {% if is_granted('ROLE_SUPERADMIN') %}
+                <p><a class="button" role="button" href="{{ path('form_admin_add') }}" class="btn btn-primary btn-sm">  &nbsp;New Duck's admin </a></p>
+                <p><a class="button" role="button" href="{{ path('form_user_edit', {'id' : app.user.id}) }}" class="btn btn-primary btn-sm">  &nbsp;Gestion profil </a></p>
+                <p><a class="button" role="button" href="{{ path('app_logout') }}" class="btn btn-primary btn-sm">  &nbsp;Déconnexion </a></p>
+                {% endif %}
+
                 <h1>{% block barre_laterale_title %}{% endblock %}</h1>
                 {% block barre_laterale %}{% endblock %}
                 <nav>{% block deconnexion %}{% endblock %}</nav>
+
             </aside>
         </main>
 

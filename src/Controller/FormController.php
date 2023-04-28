@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\IsInCommande;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\UserEditType;
 use App\Entity\Produit;
 use App\Form\ProduitType;
+use App\Form\ProduitShopType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -42,10 +44,17 @@ class FormController extends AbstractController
                 array_push($data, $produit);
             }
             else */
+            
+            $form = $this->createForm(ProduitShopType::class, $produit);
+            $form->add('send', SubmitType::class, ['label' => 'edit produit']);
+
             array_push($data, $produit);
+            array_push($data, $form);
 
             array_push($args['produits'], $data);
         }
+        
+        //$form->handleRequest($request);
 
         return $this->render('Form/produitShop.html.twig', $args);
     }
@@ -132,6 +141,36 @@ class FormController extends AbstractController
     }
 
 
+    #[Route('/admin/add', name: '_admin_add')]
+    public function adminAddAction(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $user = new User();
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->add('send', SubmitType::class, ['label' => 'add user']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $user->setPassword ($passwordHasher->hashPassword($user, $user->getPassword()));
+            $user->setRoles(['ROLE_ADMIN']);
+
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('info', 'ajout user réussi');
+            return $this->redirectToRoute('overview');
+        }
+
+        if ($form->isSubmitted())
+            $this->addFlash('info', 'formulaire ajout user incorrect');
+
+        $args = array(
+            'myform' => $form->createView(),
+        );
+        return $this->render('Form/userAdd.html.twig', $args);
+    }
+
+
     #[Route('/nouveaucompte', name: '_nouveaucompte')]
     public function userAddAction(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -212,6 +251,6 @@ class FormController extends AbstractController
         $em->flush();
         $this->addFlash('info', 'suppression user ' . $id . ' réussie');
 
-        return $this->redirectToRoute('overview_user_gestion');
+        return $this->redirectToRoute('overview_panier_delete', ['id_user' => $id]);
     }
 }

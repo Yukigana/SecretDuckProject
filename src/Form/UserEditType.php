@@ -17,6 +17,12 @@ class UserEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+        ->add('login',
+                TextType::class,
+                [
+                    'label' => 'Login : ',
+                    'invalid_message' => 'Le nom est trop long',
+                ])
             ->add('nom',
                 TextType::class,
                 [
@@ -29,18 +35,6 @@ class UserEditType extends AbstractType
                     'label' => 'Prenom : ',
                     'invalid_message' => 'Le prenom est trop long',
                 ])
-            ->add('roles', CollectionType::class, [
-                'allow_delete' => true,
-                'entry_type'   => ChoiceType::class,
-                'entry_options'  => [
-                    'choices'  => [
-                        'Empty' => 'NO_ROLE',
-                        'User' => 'ROLE_USER',
-                        'Admin' => 'ROLE_ADMIN',
-                        'Super Admin' => 'ROLE_SUPERADMIN',
-                    ],
-                ],
-            ]);
         ;
     }
 

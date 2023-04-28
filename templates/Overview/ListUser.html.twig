@@ -21,16 +21,20 @@
 
     <table>
         <tr><th>User</th></tr>
+        <td> Login </td>
+        <td> Mot de passe </td>
         <td> Nom </td>
         <td> Prenom </td>
+        <td> Date de naissance </td>
+        <td> Role </td>
         {% for user in users %}
             <tr>
+                <td>{{ user.login }}</td>
+                <td>{{ user.password }}</td>
                 <td>{{ user.nom }}</td>
                 <td>{{ user.prenom }}</td>
-                {% for role in user.roles %}
-                    <td>{{ role }}</td>
-                {% endfor %}
-                <td><a href="{{ path('form_user_edit', {'id' : user.id}) }}"><button class="mon-button" > edit </button></a></td>
+                <td>{{ user.dateNaissance.format('d/m/Y') }}</td>
+                <td>{{ user.roles[0] }}</td>
                 <td><a href="{{ path('form_user_delete', {'id' : user.id}) }}"><button class="mon-button" > delete </button></a></td>
             </tr>
         {% endfor %}

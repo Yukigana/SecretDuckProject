@@ -39,6 +39,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 5,
+        maxMessage: 'La taille du mdp doit être de minumum {{ min }} caractères.',
+    )]
     private ?string $password = null;
 
         // FIN DES CHAMPS PRINCIPAUX
@@ -176,14 +180,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCommandes(): ?Commande
+    public function getPanier(): ?IsInCommande
     {
-        return $this->commandes;
+        return $this->panier;
     }
 
-    public function setCommandes(?Commande $commandes): self
+    public function setPanier(?IsInCommande $panier): self
     {
-        $this->commandes = $commandes;
+        $this->panier = $panier;
 
         return $this;
     }

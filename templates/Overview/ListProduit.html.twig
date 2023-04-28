@@ -20,7 +20,7 @@
     <h2>Liste des produits</h2>
 
     <table>
-        <tr><th>Produit<a href="{{ path('form_produit_add') }}"><button class="mon-button" > + </button></a></th></tr>
+        <tr><th>Produit{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('form_produit_add') }}"><button class="mon-button" > + </button></a>{% endif %}</th></tr>
         <td> Nom </td>
         <td> Prix </td>
         <td> Quantité </td>
@@ -29,8 +29,11 @@
                 <td>{{ produit.libelle }}</td>
                 <td>{{ produit.prix }}</td>
                 <td>{{ produit.quantite}}</td>
+                <td><a href="{{ path('overview_panier_add', {'id_produit' : produit.id, 'id_user' : app.user.id}) }}"><button class="mon-button" > ajout panier </button></a></td>
+                {% if is_granted('ROLE_ADMIN') %}
                 <td><a href="{{ path('form_produit_edit', {'id' : produit.id}) }}"><button class="mon-button" > edit </button></a></td>
                 <td><a href="{{ path('form_produit_delete', {'id' : produit.id}) }}"><button class="mon-button" > delete </button></a></td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>
