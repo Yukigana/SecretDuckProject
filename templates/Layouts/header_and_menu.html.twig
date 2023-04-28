@@ -26,7 +26,6 @@
             <aside id="barre_laterale">
                 <p><a class="button" role="button" href="{{ path('app_login') }}" class="btn btn-primary btn-sm">  &nbsp;Connexion </a></p>
                 <p><a class="button" role="button" href="{{ path('form_nouveaucompte') }}" class="btn btn-primary btn-sm">  &nbsp;New Duck's account </a></p>
-
                 {% if is_granted('ROLE_NONE') %}
                 <p><a class="button" role="button" href="{{ path('app_login') }}" class="btn btn-primary btn-sm">  &nbsp;Connexion </a></p>
                 <p><a class="button" role="button" href="{{ path('form_nouveaucompte') }}" class="btn btn-primary btn-sm">  &nbsp;New Duck's account </a></p>

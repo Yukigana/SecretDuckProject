@@ -6,6 +6,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ProduitRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Table(name: 'ts_produit')]
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
@@ -39,6 +41,17 @@ class Produit
         min: 0,
     )]
     private ?int $quantite = null;
+
+    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: IsInCommande::class)]
+    #[Assert\Valid]
+    private Collection $panier;
+
+    /**
+     * Constructeur UseProduit
+     */
+    public function __construct(){
+        $this->panier = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

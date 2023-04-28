@@ -18,8 +18,10 @@ class IsInCommande
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(targetEntity: Produit::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Produit::class, inversedBy: 'panier')]
     #[ORM\JoinColumn(name: 'id_produit', nullable: false)]
+    #[Assert\NotNull]
+    #[Assert\Valid]
     private ?Produit $produit = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'panier')]

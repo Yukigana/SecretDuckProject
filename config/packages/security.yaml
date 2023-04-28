@@ -35,8 +35,8 @@ security:
     access_control:
         - { path: ^/$, roles: PUBLIC_ACCESS } # page d'accueil publique
         - { path: ^/login, roles: PUBLIC_ACCESS}
-        - { path: ^/nouveaucompte, roles: PUBLIC_ACCESS}
-        - { path: ^/deconnexion, roles: [ROLE_USER, ROLE_SUPERADMIN]}
+        - { path: ^/form/nouveaucompte, roles: PUBLIC_ACCESS}
+        - { path: ^/logout, roles: [ROLE_USER, ROLE_SUPERADMIN]}
         - { path: ^/form/user/edit, roles: [ROLE_USER, ROLE_SUPERADMIN]}
         - { path: ^/user/panier, roles: ROLE_USER}
         - { path: ^/magasin/gestion, roles: ROLE_USER}
@@ -44,10 +44,13 @@ security:
         - { path: ^/panier/suppArticle, roles: ROLE_USER}
         - { path: ^/panier/commande, roles: ROLE_USER}
         - { path: ^/panier/delete, roles: ROLE_USER}
+
         - { path: ^/form/produit/edit, roles: ROLE_ADMIN}
         - { path: ^/form/produit/delete, roles: ROLE_ADMIN}
+        - { path: ^/form/produit/add, roles: ROLE_ADMIN}
         - { path: ^/form/user/delete, roles: ROLE_ADMIN}
         - { path: ^/user/gestion, roles: ROLE_ADMIN}
+
         - { path: ^form/admin/add, roles: ROLE_SUPERADMIN}
 
         - { path: ^/, role: ROLE_KILLER}
