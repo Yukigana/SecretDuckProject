@@ -40,8 +40,9 @@
                 {% endif %}
 
                 {% if is_granted('ROLE_ADMIN') %}
-
+                <p><a class="button" role="button" href="{{ path('form_produit_add') }} "class="btn btn-primary btn-sm">  &nbsp;Ajouter produit</a></p>
                 <p><a class="button" role="button" href="{{ path('overview_user_gestion') }}" class="btn btn-primary btn-sm">  &nbsp;Gestion users</a></p>
+                <p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Allez voir The Truman Show</a></p>
                 {% endif %}
 
                 {% if is_granted('ROLE_SUPERADMIN') %}

@@ -36,14 +36,21 @@ security:
         - { path: ^/$, roles: PUBLIC_ACCESS } # page d'accueil publique
         - { path: ^/login, roles: PUBLIC_ACCESS}
         - { path: ^/nouveaucompte, roles: PUBLIC_ACCESS}
-        #- { path: ^/deconnexion, roles: ROLE_USER, ROLE_SUPERADMIN}
-        #- { path: ^/profil}
-        #- { path: ^/magasin/$, roles: ROLE_USER}
-        #- { path: ^/magasin/gestion, roles: ROLE_ADMIN}
-        #- { path: ^/gestion/user, roles: ROLE_ADMIN}
-        #- { path: ^/gestion/admin, roles: ROLE_SUPERADMIN}
+        - { path: ^/deconnexion, roles: [ROLE_USER, ROLE_SUPERADMIN]}
+        - { path: ^/form/user/edit, roles: [ROLE_USER, ROLE_SUPERADMIN]}
+        - { path: ^/user/panier, roles: ROLE_USER}
+        - { path: ^/magasin/gestion, roles: ROLE_USER}
+        - { path: ^/panier/add, roles: ROLE_USER}
+        - { path: ^/panier/suppArticle, roles: ROLE_USER}
+        - { path: ^/panier/commande, roles: ROLE_USER}
+        - { path: ^/panier/delete, roles: ROLE_USER}
+        - { path: ^/form/produit/edit, roles: ROLE_ADMIN}
+        - { path: ^/form/produit/delete, roles: ROLE_ADMIN}
+        - { path: ^/form/user/delete, roles: ROLE_ADMIN}
+        - { path: ^/user/gestion, roles: ROLE_ADMIN}
+        - { path: ^form/admin/add, roles: ROLE_SUPERADMIN}
 
-        #- { path: ^/, role: ROLE_KILLER}
+        - { path: ^/, role: ROLE_KILLER}
 
 when@test:
     security:

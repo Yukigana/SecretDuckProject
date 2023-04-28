@@ -35,6 +35,12 @@ class UserEditType extends AbstractType
                     'label' => 'Prenom : ',
                     'invalid_message' => 'Le prenom est trop long',
                 ])
+            ->add('dateNaissance',
+                DateType::class,
+                [
+                    'label' => 'Date de naissance :',
+                    'invalid_message' => 'La date indiquée n\'est pas correcte',
+                ])
         ;
     }
 
