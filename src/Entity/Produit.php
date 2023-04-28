@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+
 #[ORM\Table(name: 'ts_produit')]
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -30,7 +31,7 @@ class Produit
     #[Assert\NotBlank]
     #[Assert\Range(
         notInRangeMessage: 'le prix doit être supérieur à {{ min }}',
-        min: 0.0,
+        min: 0.01,
     )]
     private ?float $prix = null;
 

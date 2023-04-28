@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 5,
+        min: 2,
         maxMessage: 'La taille du mdp doit être de minumum {{ min }} caractères.',
     )]
     private ?string $password = null;
